@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace PlayerManager4 
+namespace PlayerManager4
 {
     /// <summary>
     /// The player listing program.
@@ -60,7 +60,13 @@ namespace PlayerManager4
                         InsertPlayer();
                         break;
                     case "2":
-                        ListPlayers(playerList);
+                        ShowMenuListMethod();
+                        string method_option = Console.ReadLine();
+
+
+                        ListPlayers(playerList, int.Parse(method_option));
+
+
                         break;
                     case "3":
                         ListPlayersWithScoreGreaterThan();
@@ -93,6 +99,14 @@ namespace PlayerManager4
             Console.WriteLine("3 - List Players grater then...");
             Console.WriteLine("4 - Exit");
         }
+        private void ShowMenuListMethod()
+        {
+            Console.WriteLine("Choose the listing method");
+            Console.WriteLine("1 - Score (Descending)");
+            Console.WriteLine("2 - Alphabetical (Ascending)");
+            Console.WriteLine("3 - Alphabetical (Descending)");
+            Console.WriteLine("4 - Cancel");
+        }
 
         /// <summary>
         /// Inserts a new player in the player list.
@@ -115,11 +129,27 @@ namespace PlayerManager4
         /// <param name="playersToList">
         /// An enumerable object of players to show.
         /// </param>
-        private static void ListPlayers(IEnumerable<Player> playersToList)
+        private void ListPlayers(IEnumerable<Player> playersToList, int orderMode)
         {
-            
             List<Player> playersList = new List<Player>(playersToList);
-            playersList.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+            switch (orderMode)
+            {
+                case 1:
+                    playersList.Sort((x, y) => y.Score.CompareTo(x.Score));
+                    break;
+                case 2:
+                    playersList.Sort(new CompareByName(true));
+                    break;
+                case 3:
+                    playersList.Sort(new CompareByName(false));
+                    break;
+
+                default:
+                    Console.WriteLine("Operation canceled");
+                    ShowMenu();
+                    return;
+            }
 
             foreach (Player player in playersList)
             {
@@ -134,7 +164,7 @@ namespace PlayerManager4
         {
             Console.Write("What score do you want to compare with? ");
             int score = int.Parse(Console.ReadLine());
-            ListPlayers(GetPlayersWithScoreGreaterThan(score));
+            ListPlayers(GetPlayersWithScoreGreaterThan(score), 0);
         }
 
         /// <summary>
