@@ -1,64 +1,42 @@
 ﻿using System;
+using System.Linq;
 
 namespace AnimalKingdom
 {
-    // Alternative Program class if you don't want to program your own
-    public class Program
+    class Program
     {
-        private static void Main()
+        static void Main(string[] args)
         {
-            const int n = 10;
-            Animal[] animals = new Animal[n];
-            Random rnd = new Random();
+            Random random = new Random();
+            Animal[] animals = new Animal[10];
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < animals.Length; i++)
             {
-                switch (rnd.Next(4))
+                int randomNumber = random.Next(1, 5);
+
+                switch (randomNumber)
                 {
-                    case 0:
-                        animals[i] = new Bat();
-                        break;
                     case 1:
-                        animals[i] = new Bee();
+                        animals[i] = new Dog();
                         break;
                     case 2:
                         animals[i] = new Cat();
                         break;
                     case 3:
-                        animals[i] = new Dog();
+                        animals[i] = new Bat();
                         break;
-                    default:
-                        // This should NEVER happen
-                        throw new ArgumentOutOfRangeException("Unknown animal!");
+                    case 4:
+                        animals[i] = new Bee();
+                        break;
                 }
             }
 
-            foreach (Animal a in animals)
+            foreach (Animal animal in animals)
             {
-                Console.Write($"{a.GetType().Name} says ");
-                Console.Write(a.Sound());
-                if (a is IMammal)
-                    Console.Write(
-                        $", No.Nipples = {(a as IMammal).NumberOfNipples}");
-                if (a is ICanFly)
-                    Console.Write(
-                        $", No.Wings = {(a as ICanFly).NumberOfWings}");
-                Console.WriteLine();
+                Console.WriteLine(animal.Sound());
+                if (animal is IMammal mammal) Console.WriteLine($"Number of nipples: {mammal.NumberOfNipples}");
+                if (animal is ICanFly canFly) Console.WriteLine($"Number of wings: {canFly.NumberOfWings}");
             }
-
-            // Possible output:
-
-            // Dog says Sound will be Woof!, No.Nipples = 8
-            // Dog says Sound will be Woof!, No.Nipples = 8
-            // Bat says Sound will be <Click>, No.Nipples = 2, No.Wings = 2
-            // Dog says Sound will be Woof!, No.Nipples = 8
-            // Cat says Sound will be Miau, No.Nipples = 6
-            // Cat says Sound will be Miau, No.Nipples = 6
-            // Cat says Sound will be Miau, No.Nipples = 6
-            // Cat says Sound will be Miau, No.Nipples = 6
-            // Cat says Sound will be Miau, No.Nipples = 6
-            // Dog says Sound will be Woof!, No.Nipples = 8
-
         }
     }
 }
