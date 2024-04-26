@@ -8,8 +8,6 @@ namespace PlayerManager2
             this.Score = score;
         }
         public string Name { get; private set; }
-
         public int Score { get; private set; }
     }
 }
-
