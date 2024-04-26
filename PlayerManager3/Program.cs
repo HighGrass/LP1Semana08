@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace PlayerManager2 // >>> Change to PlayerManager2 for exercise 4 <<< //
+namespace PlayerManager3 
 {
     /// <summary>
     /// The player listing program.
@@ -117,7 +117,11 @@ namespace PlayerManager2 // >>> Change to PlayerManager2 for exercise 4 <<< //
         /// </param>
         private static void ListPlayers(IEnumerable<Player> playersToList)
         {
-            foreach (Player player in playersToList)
+            
+            List<Player> playersList = new List<Player>(playersToList);
+            playersList.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+            foreach (Player player in playersList)
             {
                 Console.WriteLine($"Player name: {player.Name}, Player score: {player.Score}");
             }
@@ -146,6 +150,7 @@ namespace PlayerManager2 // >>> Change to PlayerManager2 for exercise 4 <<< //
             {
                 if (player.Score > minScore) yield return player;
             }
+
         }
     }
 }
